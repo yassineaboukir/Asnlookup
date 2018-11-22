@@ -8,7 +8,7 @@
 >An autonomous system number (ASN) is a unique number assigned to an autonomous system (AS) by the Internet Assigned Numbers Authority (IANA).
 An AS consists of blocks of IP addresses which have a distinctly defined policy for accessing external networks and are administered by a single organization
 
-This tool will search an updated database for a specific organization's ASN then use the latter to look up all IP addresses (IPv4) registered and owned by the organization.
+This tool will search an updated database for a specific organization's ASN then use the latter to look up all IP addresses (IPv4 and IPv6) registered and owned by the organization.
 
 ## Objective
 This script should be used during reconnaissance phase to identify properties owned by the company and later use Nmap, Masscan or any other tool to scan for all open TCP ports. For what it's worth, integrating Nmap in the script to automatically scan the IP address block is in the roadmap but any help is highly appreciated.
