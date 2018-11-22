@@ -23,7 +23,7 @@ def download_db():
     if os.path.isfile('./GeoIPASNum2.csv') == False:
         print(colored("Downloading ASN database ...\n", "red"))
         os.system("wget http://download.maxmind.com/download/geoip/database/asnum/GeoIPASNum2.zip && unzip GeoIPASNum2.zip && rm -f GeoIPASNum2.zip")
-        print(colored("\nDone!\n", "red))
+        print(colored("\nDone!\n", "red"))
 
         # Extracting and saving database file size locally
         try:
