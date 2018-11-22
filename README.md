@@ -15,7 +15,7 @@ This script should be used during reconnaissance phase to identify properties ow
 
 ## Usage
 ```
-$ git clone https://github.com/yassineaboukir/asnlookup && cd asnlookup.py
+$ git clone https://github.com/yassineaboukir/asnlookup && cd asnlookup
 $ pip install -r requirements.txt
 $ python asnlookup.py -o <Organization>
 ```
