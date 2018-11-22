@@ -12,8 +12,13 @@ def banner():
 
           Author: Yassine Aboukir (@yassineaboukir)\n''')
 
+def parser_error():
+    print("Usage: python" + sys.argv[0] + " -o <Oragnization> (E.g: Twitter)")
+    sys.exit()
+        
 def parse_args():
-    # parse the arguments
+    # parse the argument
+    parser.error = parser_error()
     parser = argparse.ArgumentParser(epilog='\tExample: \r\npython ' + sys.argv[0] + " -o twitter")
     org = parser.add_argument('-o', '--org', help="Organization to look up", required=False)
     return parser.parse_args()
