@@ -10,7 +10,7 @@ An AS consists of blocks of IP addresses which have a distinctly defined policy 
 
 This tool will search an updated database for a specific organization's ASN then use the latter to look up all IP addresses (IPv4) registered and owned by the organization.
 
-## Objectif
+## Objective
 This script should be used during reconnaissance phase to identify properties owned by the company and later use Nmap, Masscan or any other tool to scan for all open TCP ports. For what it's worth, integrating Nmap in the script to automatically scan the IP address block is in the roadmap but any help is highly appreciated.
 
 ## Usage
