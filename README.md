@@ -11,7 +11,7 @@ An AS consists of blocks of IP addresses which have a distinctly defined policy 
 This tool will search an updated database for a specific organization's ASN then use the latter to look up all IP addresses (IPv4 and IPv6) registered and owned by the organization.
 
 ## Objective
-This script should be used during reconnaissance phase to identify properties owned by the company and later use Nmap, Masscan or any other tool to scan for all open TCP ports. For what it's worth, integrating Nmap in the script to automatically scan the IP address block is in the roadmap but any help is highly appreciated.
+This script should be used during reconnaissance phase to identify properties owned by the company, and run a port scan on it to identify open ports and publicly exposed services.
 
 ## Usage
 ```
@@ -20,17 +20,48 @@ $ pip install -r requirements.txt
 $ python asnlookup.py -o <Organization>
 ```
 
+## Port Scanning
+The script supports Nmap port scanning but it requires you to already have Nmap installed on your machine. How to?
+
+```
+- On CentOS
+
+yum install nmap
+
+- On Debian
+
+apt-get install nmap
+
+- On Ubuntu
+
+sudo apt-get install nmap
+
+- Mac OS
+
+brew install nmap
+```
+
+To scan the IP addresses, add `-s` arugment to the command:
+
+```
+$ python asnlookup.py -s -o <Organization>
+```
+
+You can also pass your own Nmap arguments `(Default: -p 1-65535 -T4 -A -v)`.
+
+```
+$ python asnlookup.py -s "<Nmap arguments>" -o <Organization>
+```
+
 E.g:
 
 ```
-$ python asnlookup.py -o Twitter
+$ python asnlookup.py -s "--top-ports 65535" -o twitter
 ```
 
-Should return:
+It will export the result to a text file in the same directory as the script `(E.g: ./twitter.txt)` then run Nmap as follows:
 
-<img src="https://yassineaboukir.com/asnlookup.png" width="400" height="200" />
-
-And it will export the result to a text file in the same directory as the script `(E.g: ./twitter.txt)`
+<img src="https://yassineaboukir.com/asnlookup2.png" width="400" height="300" />
 
 ## Limitation
 For smaller organizations the ASN will usually be that of their ISP whereas the hostname might not. One example of this is 207.97.227.245, a GitHub IP address. The ASN is AS27357 (Rackspace Hosting), but the hostname is pages.github.com.
