@@ -15,7 +15,7 @@ def banner():
 def parse_args():
     # parse the argument
     parser = argparse.ArgumentParser(epilog='\tExample: \r\npython ' + sys.argv[0] + " -o twitter")
-    org = parser.add_argument('-o', '--org', help="Organization to look up", required=False)
+    org = parser.add_argument('-o', '--org', help="Organization to look up", required=True)
     return parser.parse_args()
 
 def download_db():
