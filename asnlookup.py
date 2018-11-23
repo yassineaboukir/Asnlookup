@@ -11,7 +11,7 @@ def banner():
         |  | ___] | \| |___ |__| |__| | \_ |__| |
 
           Author: Yassine Aboukir (@yassineaboukir)\n''')
-        
+
 def parse_args():
     # parse the argument
     parser = argparse.ArgumentParser(epilog='\tExample: \r\npython ' + sys.argv[0] + " -o twitter")
@@ -87,6 +87,9 @@ def extract_ip(asn, organization):
                 ip_addresses.append(ip)
         print(colored("IP addresses owned by {} are the following:\n".format(organization),"red"))
         for i in ip_addresses:
+            # Exporting the result to a txt file
+            with open(organization + ".txt", "a") as export:
+                export.write(i + "\n")
             print(colored(i, "yellow"))
         print("\n")
     else:
