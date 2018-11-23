@@ -21,7 +21,7 @@ $ python asnlookup.py -o <Organization>
 ```
 
 ## Port Scanning
-The script supports Nmap port scanning but it requires you to already have Nmap installed on your machine. How to?
+The tool exports the list of IP addresses as a text file which you can use with other tools such as Masscan. On the other hand, the tool supports Nmap port scanning but it requires you to already have Nmap installed on your machine. How to?
 
 ```
 - On CentOS
