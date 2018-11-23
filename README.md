@@ -30,5 +30,7 @@ Should return:
 
 <img src="https://yassineaboukir.com/asnlookup.png" width="400" height="200" />
 
+And it will export the result to a text file in the same directory as the script `(E.g: ./twitter.txt)`
+
 ## Limitation
 For smaller organizations the ASN will usually be that of their ISP whereas the hostname might not. One example of this is 207.97.227.245, a GitHub IP address. The ASN is AS27357 (Rackspace Hosting), but the hostname is pages.github.com.
