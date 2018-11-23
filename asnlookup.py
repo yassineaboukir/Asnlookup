@@ -16,6 +16,7 @@ def parse_args():
     # parse the argument
     parser = argparse.ArgumentParser(epilog='\tExample: \r\npython ' + sys.argv[0] + " -o twitter")
     org = parser.add_argument('-o', '--org', help="Organization to look up", required=True)
+    scan = parser.add_argument('-s', '--scan', help="Run Nmap", required=False, action="store", nargs='?', const="-p 1-65535 -T4 -A -v")
     return parser.parse_args()
 
 def download_db():
@@ -95,9 +96,18 @@ def extract_ip(asn, organization):
     else:
         print(colored("Sorry! We couldn't find the organization's ASN and IP addresses.", "red"))
 
+def nmap(scan, organization):
+    # Run Nmap on the IP addresses if -s argument is set
+    if scan is not None:
+        print(colored("Running port scanning using Nmap ...\n", "red"))
+        os.system("nmap {} -iL {}".format(scan, organization + ".txt"))
+    else: pass
+
 if __name__ == '__main__':
     requests.packages.urllib3.disable_warnings()
     banner()
     org = parse_args().org
+    scan = parse_args().scan
     download_db()
     extract_ip(extract_asn(org), org)
+    nmap(scan, org)
