@@ -99,8 +99,9 @@ def extract_ip(asn, organization):
 def nmap(scan, organization):
     # Run Nmap on the IP addresses if -s argument is set
     if scan is not None:
-        print(colored("Running port scanning using Nmap ...\n", "red"))
-        os.system("nmap {} -iL {}".format(scan, organization + ".txt"))
+        if os.path.isfile(organization + '.txt') == True:
+            print(colored("Running port scanning using Nmap ...\n", "red"))
+            os.system("nmap {} -iL {}".format(scan, organization + ".txt"))
     else: pass
 
 if __name__ == '__main__':
