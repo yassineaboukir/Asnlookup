@@ -66,7 +66,7 @@ def extract_asn(organization):
     #loop through csv list
     for row in csv_file:
         #if current rows 2nd value is equal to input, print that row
-        if organization in row[2] or organization.title() in row[2]:
+        if organization.upper() in row[2].upper():
             asn = row[2].split(' ', 1)[0]
             return(asn)
 
