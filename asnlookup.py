@@ -4,11 +4,6 @@ import csv, sys, argparse, requests, re, os
 from termcolor import colored
 from bs4 import BeautifulSoup
 
-def versioncheck():
-    if sys.version_info < (3,):
-        print(colored("Sorry! You need python 3 or later to run this tool.\n", "red"))
-        sys.exit(1)
-
 def banner():
         print('''
         ____ ____ _  _ _    ____ ____ _  _ _  _ ___
@@ -110,7 +105,6 @@ def nmap(scan, organization):
     else: pass
 
 if __name__ == '__main__':
-    versioncheck()
     requests.packages.urllib3.disable_warnings()
     banner()
     org = parse_args().org
