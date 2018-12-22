@@ -16,7 +16,8 @@ def parse_args():
     # parse the argument
     parser = argparse.ArgumentParser(epilog='\tExample: \r\npython ' + sys.argv[0] + " -o twitter")
     org = parser.add_argument('-o', '--org', help="Organization to look up", required=True)
-    scan = parser.add_argument('-s', '--scan', help="Run Nmap", required=False, action="store", nargs='?', const="-p 1-65535 -T4 -A -v")
+    nmapscan = parser.add_argument('-n', '--nmapscan', help="Run Nmap", required=False, action="store", nargs='?', const="-p 1-65535 -T4 -A -v")
+    masscan = parser.add_argument('-m', '--masscan', help="Run Masscan", required=False, action="store", nargs='?', const="-p0-65535 --rate 200")
     return parser.parse_args()
 
 def download_db():
@@ -96,19 +97,27 @@ def extract_ip(asn, organization):
     else:
         print(colored("Sorry! We couldn't find the organization's ASN and IP addresses.", "red"))
 
-def nmap(scan, organization):
-    # Run Nmap on the IP addresses if -s argument is set
-    if scan is not None:
+def nmap(n, m, organization):
+    # Only allow one scanner choice
+    if n and m is not None:
+    	print(colored("Please only select one port scanner: -m --> Masscan or -n --> Nmap.", "red"))
+    # Run Nmap on the IP addresses if -m argument is set
+    elif n is not None:
         if os.path.isfile(organization + '.txt') == True:
             print(colored("Running port scanning using Nmap ...\n", "red"))
-            os.system("nmap {} -iL {}".format(scan, organization + ".txt"))
-    else: pass
+            os.system("nmap {} -iL {}".format(n, organization + ".txt"))
+    # Run Masscan on the IP addresses if -m argument is set
+    else:
+    	if os.path.isfile(organization + '.txt') == True:
+        	print(colored("Running port scanning using Masscan ...\n", "red"))
+        	os.system("masscan {} -iL {}".format(m, organization + ".txt"))
 
 if __name__ == '__main__':
     requests.packages.urllib3.disable_warnings()
     banner()
+    nmapscan = parse_args().nmapscan
     org = parse_args().org
-    scan = parse_args().scan
+    masscan = parse_args().masscan
     download_db()
     extract_ip(extract_asn(org), org)
-    nmap(scan, org)
+    nmap(nmapscan, masscan, org)
