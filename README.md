@@ -22,7 +22,9 @@ $ python asnlookup.py -o <Organization>
 ```
 
 ## Port Scanning
-The tool exports the list of IP addresses as a text file which you can use with other tools such as Masscan. On the other hand, the tool supports Nmap port scanning but it requires you to already have Nmap installed on your machine. How to?
+The tool exports the list of IP addresses as a text file which you can use with other tools such as Masscan. On the other hand, the tool supports Nmap and Masscan port scanning but it requires you to already have both installed on your machine. How to?
+
+- For Nmap:
 
 ```
 - On CentOS
@@ -42,22 +44,26 @@ sudo apt-get install nmap
 brew install nmap
 ```
 
-To scan the IP addresses, add `-s` arugment to the command:
+- For Masscan:
+
+Please refer to https://github.com/robertdavidgraham/masscan/
+
+To scan the IP addresses, append to the command `-m` arugment for Masscan or `-n` for Nmap:
 
 ```
-$ python asnlookup.py -s -o <Organization>
+$ python asnlookup.py -m -o <Organization>
 ```
 
 You can also pass your own Nmap arguments `(Default: -p 1-65535 -T4 -A -v)`.
 
 ```
-$ python asnlookup.py -s "<Nmap arguments>" -o <Organization>
+$ python asnlookup.py -m "<Masscan arguments>" -o <Organization>
 ```
 
-E.g:
+Example using Nmap with custom arguments:
 
 ```
-$ python asnlookup.py -s "--top-ports 65535" -o twitter
+$ python asnlookup.py -n "--top-ports 65535" -o twitter
 ```
 
 It will export the result to a text file in the same directory as the script `(E.g: ./twitter.txt)` then run Nmap as follows:
