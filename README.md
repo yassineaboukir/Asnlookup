@@ -54,7 +54,7 @@ To scan the IP addresses, append to the command `-m` arugment for Masscan or `-n
 $ python asnlookup.py -m -o <Organization>
 ```
 
-You can also pass your own Nmap arguments `(Default: -p 1-65535 -T4 -A -v)`.
+You can also pass your own Nmap/Masscan arguments (Default for nmap: `-p 1-65535 -T4 -A -v`; default for Masscan: `-p0-65535 --rate 200`).
 
 ```
 $ python asnlookup.py -m "<Masscan arguments>" -o <Organization>
