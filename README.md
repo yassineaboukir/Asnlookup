@@ -14,7 +14,7 @@ This tool will search an updated database for a specific organization's ASN then
 This script should be used during reconnaissance phase to identify properties owned by the company, and run a port scan on it to identify open ports and publicly exposed services.
 
 ## Usage
-Tested on Python >= 2.7.
+Tested on Python >= 2.7 < Python 3
 ```
 $ git clone https://github.com/yassineaboukir/Asnlookup && cd Asnlookup
 $ pip install -r requirements.txt
