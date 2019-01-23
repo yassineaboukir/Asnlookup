@@ -102,7 +102,7 @@ def extract(organization):
     else:
         print(colored("Sorry! We couldn't find the organization's ASN and IP addresses.", "red"))
 
-# Due to Maxmind structural change, below function is useless Windows
+# Due to Maxmind structural change, below function is useless now
 
 # def extract_ip(asn, organization):
 #     if asn is not None:
