@@ -87,54 +87,81 @@ def extract_asn(organization):
 
 
 def extract_ip(asn, organization):
-    if asn is not None:
+
+    path_ipv6 = os.path.dirname(os.path.realpath(__file__)) + "/output/" + organization + "_ipv6.txt"
+    path_ipv4 = os.path.dirname(os.path.realpath(__file__)) + "/output/" + organization + "_ipv4.txt"
+
+    if asn:
         if not os.path.exists("output"):
             os.makedirs("output")
         elif os.path.isfile('./output/' + organization + '.txt') == True:
             os.system('cd ./output/ && rm -f ' + organization + '.txt')
         else:
             pass
+
         ipinfo = "https://ipinfo.io/"
+
         try:
             response = requests.get(ipinfo + "AS" + asn)
         except:
             print(colored("[*] Timed out while trying to the ASN lookup server, please run the tool again.", "red"))
             sys.exit(1)
+
         html = response.content
         soup = BeautifulSoup(html, 'html.parser')
-        ip_addresses = []
+        ipv6 = []
+        ipv4 = []
         for link in soup.find_all('a'):
             if asn in link.get('href'):
                 search_criteria = '/' + "AS" + asn + '/'
                 ip = re.sub(search_criteria, '', link.get('href'))
                 if "robtex" not in ip:
-                    ip_addresses.append(ip)
+                    if ":" in ip:
+                        ipv6.append(ip)
+                    else: ipv4.append(ip)
                 else: pass
-        print(colored("[*] IP addresses owned by {} are the following:\n".format(organization),"red"))
 
-        with open("./output/" + organization + ".txt", "w") as dump:
-            for i in ip_addresses:
-                dump.write(i + "\n")
-                print(colored(i, "yellow"))
-        path = os.path.dirname(os.path.realpath(__file__)) + "/output/" + organization + ".txt"
-        print(colored("\n[*] Result saved to: {}".format(path), "red"))
+        print(colored("[*] IP addresses owned by {} are the following (IPv4 or IPv6):".format(organization),"red"))
+
+        if ipv4:
+            print(colored("\n[*] IPv4 addresses saved to: ", "red"))
+            print(colored("{}\n".format(path_ipv4), "yellow"))
+            with open("./output/" + organization + "_ipv4.txt", "w") as dump:
+                for i in ipv4:
+                    dump.write(i + "\n")
+                    print(colored(i, "yellow"))
+
+        if ipv6:
+            print(colored("\n[*] IPv6 addresses saved to: ", "red"))
+            print(colored("{}\n".format(path_ipv6), "yellow"))
+            with open("./output/" + organization + "_ipv6.txt", "w") as dump:
+                for i in ipv6:
+                    dump.write(i + "\n")
+                    print(colored(i, "yellow"))
     else:
         print(colored("[*] Sorry! We couldn't find the organization's ASN and IP addresses.", "red"))
 
 def scanning(n, m, organization):
     # Only allow one scanner choice
-    if n and m is not None:
+    if n and m:
     	print(colored("\n[*] Please only select one port scanner: -m --> Masscan or -n --> Nmap.", "red"))
+
     # Run Nmap on the IP addresses if -m argument is set
-    elif n is not None:
-        if os.path.isfile("./output/" + organization + '.txt') == True:
-            print(colored("\n[*] Running port scanning using Nmap ...\n", "red"))
-            os.system("nmap {} -iL {}".format(n, "./output/" + organization + ".txt"))
+    elif n:
+        if os.path.isfile("./output/" + organization + '_ipv4.txt') == True:
+            print(colored("\n[*] Running port scanning using Nmap on IPV4 ...", "red"))
+            os.system("nmap {} -iL {}".format(n, "./output/" + organization + "_ipv4.txt"))
+
+            if os.path.isfile("./output/" + organization + '_ipv6.txt') == True:
+                print(colored("\n[*] Running port scanning using Nmap on IPV6 ...\n", "red"))
+                os.system("nmap {} -iL {}".format(n, "./output/" + organization + "_ipv6.txt"))
+        else: pass
+
     # Run Masscan on the IP addresses if -m argument is set
-    elif m is not None:
-    	if os.path.isfile("./output/" + organization + '.txt') == True:
-        	print(colored("\n[*] Running port scanning using Masscan ...\n", "red"))
-        	os.system("masscan {} -iL {}".format(m, "./output/" + organization + ".txt"))
+    elif m:
+    	if os.path.isfile("./output/" + organization + '_ipv4.txt') == True:
+        	print(colored("\n[*] Running port scanning using Masscan (Warning: supports only IPV4)...", "red"))
+        	os.system("masscan {} -iL {}".format(m, "./output/" + organization + "_ipv4.txt"))
     else: pass
 
 if __name__ == '__main__':
