@@ -44,7 +44,7 @@ sudo apt-get install nmap
 brew install nmap
 ```
 
-- For Masscan:
+- For Masscan: **NOTE THAT MASSCAN DOESN'T SUPPORT IPV6 PORT SCANNING**
 
 Please refer to https://github.com/robertdavidgraham/masscan/
 
