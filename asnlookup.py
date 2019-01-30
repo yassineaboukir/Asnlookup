@@ -132,7 +132,7 @@ def scanning(n, m, organization):
             os.system("nmap {} -iL {}".format(n, "./output/" + organization + ".txt"))
     # Run Masscan on the IP addresses if -m argument is set
     elif m is not None:
-    	if os.path.isfile(organization + '.txt') == True:
+    	if os.path.isfile("./output/" + organization + '.txt') == True:
         	print(colored("\n[*] Running port scanning using Masscan ...\n", "red"))
         	os.system("masscan {} -iL {}".format(m, "./output/" + organization + ".txt"))
     else: pass
