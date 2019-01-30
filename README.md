@@ -68,7 +68,7 @@ $ python asnlookup.py -n "--top-ports 65535" -o twitter
 
 It will export the result to a text file in the output directory `(E.g: ./output/salesforce.txt)` then run Nmap as follows:
 
-<img src="https://yassineaboukir.com/lab/asnlookup_salesforce.png" width="400" height="300" />
+<img src="https://yassineaboukir.com/lab/asnlookup_salesforce.png" width="500" height="1000" />
 
 ## Limitation
 For smaller organizations the ASN will usually be that of their ISP whereas the hostname might not. One example of this is 207.97.227.245, a GitHub IP address. The ASN is AS27357 (Rackspace Hosting), but the hostname is pages.github.com.
