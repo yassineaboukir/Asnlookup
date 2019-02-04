@@ -57,13 +57,13 @@ $ python asnlookup.py -m -o <Organization>
 You can also pass your own Nmap/Masscan arguments (Default for nmap: `-p 1-65535 -T4 -A -v`; default for Masscan: `-p0-65535 --rate 200`).
 
 ```
-$ python asnlookup.py -m "<Masscan arguments>" -o <Organization>
+$ python asnlookup.py -m="<Masscan arguments>" -o <Organization>
 ```
 
 Example using Nmap with custom arguments:
 
 ```
-$ python asnlookup.py -n "--top-ports 65535" -o twitter
+$ python asnlookup.py -n="--top-ports 65535" -o twitter
 ```
 
 It will export the result to a text file in the output directory `(E.g: ./output/salesforce.txt)` then run Nmap as follows:
