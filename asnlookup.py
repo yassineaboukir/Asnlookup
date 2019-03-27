@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# Tested on Python 2.7 and 3.5
 
 import csv
 import sys
@@ -31,6 +32,7 @@ nmapscan = parse_args().nmapscan
 masscan = parse_args().masscan
 
 def download_db():
+    global input
     useragent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:64.0) Gecko/20100101 Firefox/64.0'
     # Download a local copy of ASN database from maxmind.com
     if (os.path.isfile('./GeoLite2-ASN-Blocks-IPv4.csv')) == False:
@@ -60,7 +62,9 @@ def download_db():
                     pass
                 else:
                     print(colored("[*] It seems like you have not updated the database.","red"))
-                    choice = raw_input(colored("[?] Do you want to update now? [Y]es [N]o, default: [N] ", "red"))
+                    try: input = raw_input #fixes python 2.x and 3.x input keyword
+                    except NameError: pass
+                    choice = input(colored("[?] Do you want to update now? [Y]es [N]o, default: [N] ", "red")) 
                     if choice.upper() == "Y":
                         os.system("rm -rf GeoLite2*")
                         print(colored("[*] Downloading a new copy of the database ...\n","red"))
