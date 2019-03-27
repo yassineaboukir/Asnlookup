@@ -17,7 +17,7 @@ This script should be used during reconnaissance phase to identify properties ow
 Tested on Python >= 2.7 and Python 3.5
 ```
 $ git clone https://github.com/yassineaboukir/Asnlookup && cd Asnlookup
-$ pip install -r requirements.txt (or `pip3 install -r requirements.txt` if you're using Python3)
+$ pip install -r requirements.txt (or pip3 install -r requirements.txt if you're using Python3)
 $ python asnlookup.py -o <Organization>
 ```
 
