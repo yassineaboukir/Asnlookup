@@ -10,6 +10,8 @@ An AS consists of blocks of IP addresses which have a distinctly defined policy 
 
 This tool will search an updated database for a specific organization's ASN then use the latter to look up all IP addresses (IPv4 and IPv6) registered and owned by the organization.
 
+A web application version of this tool which was built with Flask is live on http://asnlookup.com/
+
 ## Objective
 This script should be used during reconnaissance phase to identify properties owned by the company, and run a port scan on it to identify open ports and publicly exposed services.
 
