@@ -68,9 +68,11 @@ Example using Nmap with custom arguments:
 $ python asnlookup.py -n="--top-ports 65535" -o twitter
 ```
 
-It will export the result to a text file in the output directory `(E.g: ./output/salesforce.txt)` then run Nmap as follows:
-
-<img src="https://yassineaboukir.com/lab/asnlookup_salesforce.png" width="500" height="1000" />
+It will export the result to a text file in the output directory `(E.g: ./output/salesforce.txt)` then run Nmap.
 
 ## Limitation
 For smaller organizations the ASN will usually be that of their ISP whereas the hostname might not. One example of this is 207.97.227.245, a GitHub IP address. The ASN is AS27357 (Rackspace Hosting), but the hostname is pages.github.com.
+
+## Support
+If you appreciate my work and wish to support it, feel free to: <a href="http://buymeacoffee.com/yassineaboukir"><img src="https://cdn-images-1.medium.com/max/738/1*G95uyokAH4JC5Ppvx4LmoQ@2x.png" width="150"></a>
+
