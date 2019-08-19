@@ -135,7 +135,7 @@ def extract_ip(asns, organization, output_path=None):
                     else: ipv4.append(ip)
                 else: pass
 
-        # print(colored("[*] IP addresses owned by {} are the following (IPv4 or IPv6):".format(organization),"red"))
+    print(colored("[*] IP addresses owned by {} are the following (IPv4 or IPv6):".format(organization),"red"))
 
     if ipv4:
         print(colored("\n[*] IPv4 addresses saved to: ", "red"))
