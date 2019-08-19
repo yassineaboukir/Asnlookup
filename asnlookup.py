@@ -25,11 +25,13 @@ def parse_args():
     org = parser.add_argument('-o', '--org', help="Organization to look up", required=True)
     nmapscan = parser.add_argument('-n', '--nmapscan', help="Run Nmap", required=False, action="store", nargs='?', const="-p 1-65535 -T4 -A -v")
     masscan = parser.add_argument('-m', '--masscan', help="Run Masscan", required=False, action="store", nargs='?', const="-p0-65535 --rate 200")
+    output = parser.add_argument('--output', help="Output path (optional)", required=False)
     return parser.parse_args()
 
 org = parse_args().org
 nmapscan = parse_args().nmapscan
 masscan = parse_args().masscan
+output_path = parse_args().output
 
 def download_db():
     global input
@@ -84,27 +86,37 @@ def extract_asn(organization):
     #read csv, and split on "," the line
     asn_ipv4 = csv.reader(open('GeoLite2-ASN-Blocks-IPv4.csv', "r"), delimiter=",")
     #loop through csv list
+    res = []    
     for row in asn_ipv4:
         #if current rows 2nd value is equal to input, print that row
         if organization.upper() in row[2].upper():
-            return(row[1])
+            res.append(row[1])
+
+    return list(set(res))
 
 
-def extract_ip(asn, organization):
+def extract_ip(asns, organization, output_path=None):
 
-    path_ipv6 = os.path.dirname(os.path.realpath(__file__)) + "/output/" + organization + "_ipv6.txt"
-    path_ipv4 = os.path.dirname(os.path.realpath(__file__)) + "/output/" + organization + "_ipv4.txt"
+    if not output_path:
+        output_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'output')
 
-    if asn:
-        if not os.path.exists("output"):
-            os.makedirs("output")
-        elif os.path.isfile('./output/' + organization + '.txt') == True:
-            os.system('cd ./output/ && rm -f ' + organization + '.txt')
-        else:
-            pass
+    path_ipv6 = os.path.join(output_path, organization + "_ipv6.txt")
+    path_ipv4 = os.path.join(output_path, organization + "_ipv4.txt")
 
-        ipinfo = "https://ipinfo.io/"
+    
 
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+    # elif os.path.isfile('./output/' + organization + '.txt') == True:
+    #     os.system('cd ./output/ && rm -f ' + organization + '.txt')
+    # else:
+    #     pass
+
+    ipinfo = "https://ipinfo.io/"
+    ipv6 = []
+    ipv4 = []
+
+    for asn in asns:
         try:
             response = requests.get(ipinfo + "AS" + asn)
         except:
@@ -113,8 +125,6 @@ def extract_ip(asn, organization):
 
         html = response.content
         soup = BeautifulSoup(html, 'html.parser')
-        ipv6 = []
-        ipv4 = []
         for link in soup.find_all('a'):
             if asn in link.get('href'):
                 search_criteria = '/' + "AS" + asn + '/'
@@ -125,25 +135,25 @@ def extract_ip(asn, organization):
                     else: ipv4.append(ip)
                 else: pass
 
-        print(colored("[*] IP addresses owned by {} are the following (IPv4 or IPv6):".format(organization),"red"))
+        # print(colored("[*] IP addresses owned by {} are the following (IPv4 or IPv6):".format(organization),"red"))
 
-        if ipv4:
-            print(colored("\n[*] IPv4 addresses saved to: ", "red"))
-            print(colored("{}\n".format(path_ipv4), "yellow"))
-            with open("./output/" + organization + "_ipv4.txt", "w") as dump:
-                for i in ipv4:
-                    dump.write(i + "\n")
-                    print(colored(i, "yellow"))
+    if ipv4:
+        print(colored("\n[*] IPv4 addresses saved to: ", "red"))
+        print(colored("{}\n".format(path_ipv4), "yellow"))
+        with open(path_ipv4, "w") as dump:
+            for i in ipv4:
+                dump.write(i + "\n")
+                print(colored(i, "yellow"))
 
-        if ipv6:
-            print(colored("\n[*] IPv6 addresses saved to: ", "red"))
-            print(colored("{}\n".format(path_ipv6), "yellow"))
-            with open("./output/" + organization + "_ipv6.txt", "w") as dump:
-                for i in ipv6:
-                    dump.write(i + "\n")
-                    print(colored(i, "yellow"))
-    else:
-        print(colored("[*] Sorry! We couldn't find the organization's ASN and IP addresses.", "red"))
+    if ipv6:
+        print(colored("\n[*] IPv6 addresses saved to: ", "red"))
+        print(colored("{}\n".format(path_ipv6), "yellow"))
+        with open(path_ipv6, "w") as dump:
+            for i in ipv6:
+                dump.write(i + "\n")
+                print(colored(i, "yellow"))
+    # else:
+    #     print(colored("[*] Sorry! We couldn't find the organization's ASN and IP addresses.", "red"))
 
 def scanning(n, m, organization):
     # Only allow one scanner choice
@@ -172,5 +182,5 @@ if __name__ == '__main__':
     banner()
     org = parse_args().org
     download_db()
-    extract_ip(extract_asn(org), org)
+    extract_ip(extract_asn(org), org, output_path)
     scanning(nmapscan, masscan, org)
