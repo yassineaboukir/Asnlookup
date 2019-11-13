@@ -42,7 +42,7 @@ def download_db():
 
         # Extracting and saving database file size locally
         try:
-            response = requests.get("https://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip", headers={'User-Agent': useragent}, timeout = 10)
+            response = requests.head("https://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip", headers={'User-Agent': useragent}, timeout = 10)
         except:
             print(colored("[*] Timed out while trying to connect to the database server, please run the tool again.", "red"))
             sys.exit(1)
@@ -52,7 +52,7 @@ def download_db():
     else:
         # Checking if there is a new database change and download a new copy if applicable
         try:
-            response = requests.get("https://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip", headers={'User-Agent': useragent}, timeout = 10)
+            response = requests.head("https://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip", headers={'User-Agent': useragent}, timeout = 10)
         except:
             print(colored("[*] Timed out while trying to the database server, please run the tool again.", "red"))
             sys.exit(1)
@@ -64,7 +64,7 @@ def download_db():
                     print(colored("[*] It seems like you have not updated the database.","red"))
                     try: input = raw_input #fixes python 2.x and 3.x input keyword
                     except NameError: pass
-                    choice = input(colored("[?] Do you want to update now? [Y]es [N]o, default: [N] ", "red")) 
+                    choice = input(colored("[?] Do you want to update now? [Y]es [N]o, default: [N] ", "red"))
                     if choice.upper() == "Y":
                         os.system("rm -rf GeoLite2*")
                         print(colored("[*] Downloading a new copy of the database ...\n","red"))
