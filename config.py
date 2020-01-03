@@ -1,3 +1,3 @@
 #!/usr/bin/python
 
-license_key = "" # Your maxmind license key to fetch database
+license_key = "key_here" # Your maxmind license key to fetch database
