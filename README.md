@@ -18,11 +18,20 @@ A web application version of this tool which was built with Flask is live on htt
 This script should be used during reconnaissance phase to identify properties owned by the company, and run a port scan on it to identify open ports and publicly exposed services.
 
 ## Usage
-Tested on Python >= 2.7 and Python 3.5
+- Tested on Python >= 2.7 and Python 3.5. Execute the following:
 ```
 $ git clone https://github.com/yassineaboukir/Asnlookup && cd Asnlookup
 $ pip install -r requirements.txt (or pip3 install -r requirements.txt if you're using Python3)
-$ python asnlookup.py -o <Organization>
+```
+
+- Sign up for a free account on Maxmind: `https://www.maxmind.com/en/geolite2/signup`
+- Sign in and browse to `https://www.maxmind.com/en/accounts/1` > `My License Key` > `Generate new license key` > Check `No` for `Will this key be used for GeoIP Update?`.
+- Open `config.py` with a text editor, and replace `key_here` placeholder with the license key you generated.
+
+To use, execute: 
+
+```
+$ python asnlookup.py -o <Organization>`
 ```
 
 ## Port Scanning
