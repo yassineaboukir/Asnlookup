@@ -9,6 +9,7 @@ import re
 import os
 from termcolor import colored
 from bs4 import BeautifulSoup
+from config import *
 requests.packages.urllib3.disable_warnings()
 
 def banner():
@@ -32,17 +33,18 @@ nmapscan = parse_args().nmapscan
 masscan = parse_args().masscan
 
 def download_db():
+    download_link = 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN-CSV&license_key={}&suffix=zip'.format(license_key)
     global input
     useragent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:64.0) Gecko/20100101 Firefox/64.0'
     # Download a local copy of ASN database from maxmind.com
     if (os.path.isfile('./GeoLite2-ASN-Blocks-IPv4.csv')) == False:
         print(colored("[*] Downloading ASN database ...\n", "red"))
-        os.system("wget https://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip && unzip GeoLite2-ASN-CSV.zip && rm -f GeoLite2-ASN-CSV.zip && mv GeoLite*/* . && rm -f GeoLite2-ASN-Blocks-IPv6.csv && rm -f COPYRIGHT.txt LICENSE.txt && rm -rf GeoLite*/")
+        os.system("wget -O GeoLite2-ASN-CSV.zip '{}' && unzip GeoLite2-ASN-CSV.zip && rm -f GeoLite2-ASN-CSV.zip && mv GeoLite*/* . && rm -f GeoLite2-ASN-Blocks-IPv6.csv && rm -f COPYRIGHT.txt LICENSE.txt && rm -rf GeoLite*/".format(download_link))
         print(colored("\nDone!\n", "red"))
 
         # Extracting and saving database file size locally
         try:
-            response = requests.head("https://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip", headers={'User-Agent': useragent}, timeout = 10)
+            response = requests.head("{}".format(download_link), headers={'User-Agent': useragent}, timeout = 10)
         except:
             print(colored("[*] Timed out while trying to connect to the database server, please run the tool again.", "red"))
             sys.exit(1)
@@ -52,7 +54,7 @@ def download_db():
     else:
         # Checking if there is a new database change and download a new copy if applicable
         try:
-            response = requests.head("https://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip", headers={'User-Agent': useragent}, timeout = 10)
+            response = requests.head("{}".format(download_link), headers={'User-Agent': useragent}, timeout = 10)
         except:
             print(colored("[*] Timed out while trying to the database server, please run the tool again.", "red"))
             sys.exit(1)
@@ -68,10 +70,10 @@ def download_db():
                     if choice.upper() == "Y":
                         os.system("rm -rf GeoLite2*")
                         print(colored("[*] Downloading a new copy of the database ...\n","red"))
-                        os.system("wget -O GeoLite2-ASN-CSV.zip https://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip && unzip GeoLite2-ASN-CSV.zip && rm -f GeoLite2-ASN-CSV.zip && mv GeoLite*/* . && rm -f GeoLite2-ASN-Blocks-IPv6.csv  && rm -f COPYRIGHT.txt LICENSE.txt && rm -rf GeoLite*/")
+                        os.system("wget -O GeoLite2-ASN-CSV.zip '{} && unzip GeoLite2-ASN-CSV.zip && rm -f GeoLite2-ASN-CSV.zip && mv GeoLite*/* . && rm -f GeoLite2-ASN-Blocks-IPv6.csv  && rm -f COPYRIGHT.txt LICENSE.txt && rm -rf GeoLite*/".format(download_link))
 
                         try:
-                            response = requests.get("https://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip", headers={'User-Agent': useragent}, timeout = 10)
+                            response = requests.get("{}".format(download_link), headers={'User-Agent': useragent}, timeout = 10)
                         except:
                             print(colored("[*] Timed out while trying to the database server, please run the tool again.", "red"))
                             sys.exit(1)
