@@ -12,6 +12,8 @@ from bs4 import BeautifulSoup
 from config import *
 requests.packages.urllib3.disable_warnings()
 
+download_link = 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN-CSV&license_key={}&suffix=zip'.format(license_key)
+
 def banner():
         print('''
         ____ ____ _  _ _    ____ ____ _  _ _  _ ___
@@ -32,8 +34,23 @@ org = parse_args().org
 nmapscan = parse_args().nmapscan
 masscan = parse_args().masscan
 
+def check_licensekey():
+    if not license_key:
+        print (colored('[!] Please enter a valid Maxmind user license key in config.py.', 'red'))
+        sys.exit(1)
+    else:
+        try:
+            r = requests.head('{}'.format(download_link))
+            if r.status_code == requests.codes.ok:
+                print (colored("[*] User's license key is valid!\n", 'green'))
+            else:
+                print (colored("[!] Please enter a valid Maxmind user license key in config.py.", 'red'))
+                sys.exit(1)
+        except requests.exceptions.RequestException as e:
+            print (e)
+            sys.exit(1)
+
 def download_db():
-    download_link = 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN-CSV&license_key={}&suffix=zip'.format(license_key)
     global input
     useragent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:64.0) Gecko/20100101 Firefox/64.0'
     # Download a local copy of ASN database from maxmind.com
@@ -127,10 +144,10 @@ def extract_ip(asn, organization):
                     else: ipv4.append(ip)
                 else: pass
 
-        print(colored("[*] IP addresses owned by {} are the following (IPv4 or IPv6):".format(organization),"red"))
+        print(colored("[*] IP addresses owned by {} are the following (IPv4 or IPv6):".format(organization),"green"))
 
         if ipv4:
-            print(colored("\n[*] IPv4 addresses saved to: ", "red"))
+            print(colored("\n[*] IPv4 addresses saved to: ", "green"))
             print(colored("{}\n".format(path_ipv4), "yellow"))
             with open("./output/" + organization + "_ipv4.txt", "w") as dump:
                 for i in ipv4:
@@ -138,7 +155,7 @@ def extract_ip(asn, organization):
                     print(colored(i, "yellow"))
 
         if ipv6:
-            print(colored("\n[*] IPv6 addresses saved to: ", "red"))
+            print(colored("\n[*] IPv6 addresses saved to: ", "green"))
             print(colored("{}\n".format(path_ipv6), "yellow"))
             with open("./output/" + organization + "_ipv6.txt", "w") as dump:
                 for i in ipv6:
@@ -173,6 +190,7 @@ def scanning(n, m, organization):
 if __name__ == '__main__':
     banner()
     org = parse_args().org
+    check_licensekey()
     download_db()
     extract_ip(extract_asn(org), org)
     scanning(nmapscan, masscan, org)
