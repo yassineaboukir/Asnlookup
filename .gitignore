@@ -1,5 +1,6 @@
-# ASNlookup config file
+# ASNlookup user files
 config.py
+output/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
