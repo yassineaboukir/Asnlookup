@@ -38,6 +38,8 @@ To use, execute:
 $ python asnlookup.py -o <Organization>`
 ```
 
+_E.g: python asnlookup -o "Capital One"_
+
 ## Port Scanning
 The tool exports the list of IP addresses as a text file which you can use with other tools such as Masscan. On the other hand, the tool supports Nmap and Masscan port scanning but it requires you to already have both installed on your machine. How to?
 
