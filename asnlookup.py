@@ -30,10 +30,6 @@ def parse_args():
     masscan = parser.add_argument('-m', '--masscan', help="Run Masscan", required=False, action="store", nargs='?', const="-p0-65535 --rate 200")
     return parser.parse_args()
 
-org = parse_args().org
-nmapscan = parse_args().nmapscan
-masscan = parse_args().masscan
-
 def check_licensekey():
     if not license_key:
         print (colored('[!] Please enter a valid Maxmind user license key in config.py.', 'red'))
@@ -105,7 +101,7 @@ def extract_asn(organization):
     #loop through csv list
     for row in asn_ipv4:
         #if current rows 2nd value is equal to input, print that row
-        if organization.upper() in row[2].upper():
+        if organization.upper().replace('_', ' ') in row[2].upper():
             return(row[1])
 
 
@@ -189,7 +185,10 @@ def scanning(n, m, organization):
 
 if __name__ == '__main__':
     banner()
-    org = parse_args().org
+    nmapscan = parse_args().nmapscan
+    masscan = parse_args().masscan
+    org = parse_args().org \
+                        .replace(' ', '_')
     check_licensekey()
     download_db()
     extract_ip(extract_asn(org), org)
