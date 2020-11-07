@@ -24,13 +24,13 @@ $ pip install -r requirements.txt (or pip3 install -r requirements.txt if you're
 ```
 
 ```
-$ python asnlookup.py -o <Organization>`
+$ python asnlookup.py -o <Organization>
 ```
 
 _E.g: python asnlookup -o "Capital One"_
 
 ## Port Scanning
-The tool exports the list of IP addresses as a text file which you feed to other tools. On the other hand, the tool supports Nmap and Masscan port scanning but requires prior installation on your machine. How to?
+The tool supports port scanning using Nmap or Masscan but requires prior installation on your machine. How to?
 
 - For Nmap:
 
