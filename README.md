@@ -27,7 +27,7 @@ $ pip install -r requirements.txt (or pip3 install -r requirements.txt if you're
 $ python asnlookup.py -o <Organization>
 ```
 
-_E.g: python asnlookup -o "Capital One"_
+_E.g: python asnlookup.py -o "Capital One"_
 
 ## Port Scanning
 The tool supports port scanning using Nmap or Masscan but requires prior installation on your machine. How to?
