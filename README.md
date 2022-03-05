@@ -6,6 +6,7 @@
  
  <p align="center"><a target="_blank" href="https://twitter.com/yassineaboukir"><img src="https://img.shields.io/twitter/follow/yassineaboukir.svg?logo=twitter"></a></p>
  
+# ASNLookup API is currently down and undergoing a complete code refactoring/rebranding. Sooner than later! Be patient :)
 
  ## Description
 >An autonomous system number (ASN) is a unique number assigned to an autonomous system (AS) by the Internet Assigned Numbers Authority (IANA).
