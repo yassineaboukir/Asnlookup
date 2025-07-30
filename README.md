@@ -6,8 +6,6 @@
  
  <p align="center"><a target="_blank" href="https://twitter.com/yassineaboukir"><img src="https://img.shields.io/twitter/follow/yassineaboukir.svg?logo=twitter"></a></p>
  
-## *Notice:* The python client is being refactored but you can use asnlookup.com web service or its free/paid API at the moment
-
  ## Description
 >An autonomous system number (ASN) is a unique number assigned to an autonomous system (AS) by the Internet Assigned Numbers Authority (IANA).
 An AS consists of blocks of IP addresses which have a distinctly defined policy for accessing external networks and are administered by a single organization
@@ -24,11 +22,13 @@ $ git clone https://github.com/yassineaboukir/Asnlookup && cd Asnlookup
 $ pip install -r requirements.txt (or pip3 install -r requirements.txt if you're using Python3)
 ```
 
+Now, you need to signup for our API at `https://rapidapi.com/yaaboukir/api/asn-lookup` to receive your API key.
+
 ```
-$ python asnlookup.py -o <Organization>
+$ python3 asnlookup.py --org <Organization> --apikey <APIKEY>
 ```
 
-_E.g: python asnlookup.py -o "Capital One"_
+_E.g: python asnlookup.py --org "facebook"_ --apikey "5436184324msh1d99bfe2f60b2<REDACTED>"
 
 ## Port Scanning
 The tool supports port scanning using Nmap or Masscan but requires prior installation on your machine. How to?
